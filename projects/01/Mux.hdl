@@ -1,0 +1,36 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux.hdl
+
+/** 
+ * Multiplexor:
+ * out = a if sel == 0
+ *       b otherwise
+ */
+
+CHIP Mux {
+    IN a, b, sel;
+    OUT out;
+
+    PARTS:
+    // Put your code here:
+
+    //flip the select bit
+    Not(in=sel, out=muxNotSelOut);
+
+    //muxNotSelOut goes here
+    //check if the selector flipped is = 1
+    //if so, then output the value of A
+    And(a=a, b=muxNotSelOut, out=andOut1);
+
+    //check if the selector is = 1
+    //if so, then output the value of B
+    And(a=sel, b=b, out=andOut2);
+
+    //andOut1 goes here
+    //andOut2 goes here
+    //output the the value of either a or b depending on the selector
+    Or(a=andOut1, b=andOut2, out=out);
+
+}

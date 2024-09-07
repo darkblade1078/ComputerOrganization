@@ -1,0 +1,40 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Or.hdl
+
+ /**
+ * Or gate:
+ * out = 1 if (a == 1 or b == 1)
+ *       0 otherwise
+ */
+
+CHIP Or {
+    IN a, b;
+    OUT out;
+
+    PARTS:
+
+    /*
+        we flip the values of A and B.
+
+        as long as both values = 0 when flipped,
+        the nand will always return false.
+
+        if either value flipped = 1,
+        then the nand will return true.
+    */
+
+    //flip the value
+    //output goes to the Nand Gate as A
+    Not(in=a, out=notA);
+
+    //flip the value
+    //output goes to the Nand Gate as B
+    Not(in=b, out=notB);
+
+    //output of the notA Gate goes here
+    //output of the notB Gate goes here
+    Nand(a=notA, b=notB, out=out);
+
+}
