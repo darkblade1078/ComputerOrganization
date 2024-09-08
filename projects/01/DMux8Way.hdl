@@ -16,6 +16,11 @@ CHIP DMux8Way {
     OUT a, b, c, d, e, f, g, h;
 
     PARTS:
-    // Put your code here:
+    //Same as DMux4Way but with even more gates!!!!
 
+    //entry DMux Gate
+    DMux(in=in, sel=sel[2], a=output1, b=output2);
+
+    DMux4Way(in=output1, sel=sel[0..1], a=a, b=b, c=c, d=d);
+    DMux4Way(in=output2, sel=sel[0..1], a=e, b=f, c=g, d=h);
 }
