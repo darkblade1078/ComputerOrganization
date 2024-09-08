@@ -42,7 +42,11 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
-
+    /*
+        The ALU handles a lot of arithmitic for us
+        What function we call upon depends on our zx-no inputs
+        This is a very complicated gate to implement
+        I hope I never have to accurately describe how the ALU works in practice
+    */
 }
 
