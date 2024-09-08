@@ -48,5 +48,59 @@ CHIP ALU {
         This is a very complicated gate to implement
         I hope I never have to accurately describe how the ALU works in practice
     */
+
+    //ALU NO STAT
+
+    //HANDLE X
+    //whether we want X or 0
+    Mux16(a=x, b[0..15]=false, sel=zx, out=zxOut);
+
+    //flips our X output
+    Not16(in=zxOut, out=notZxOut);
+
+    //whether we want X to be flipped or not
+    Mux16(a=zxOut, b=notZxOut, sel=nx, out=nxOut);
+
+
+    //HANDLE Y
+    //whether we want Y or 0
+    Mux16(a=y, b[0..15]=false, sel=zy, out=zyOut);
+
+    //flips our Y output
+    Not16(in=zyOut, out=notZyOut);
+
+    //whether we want Y to be flipped or not
+    Mux16(a=zyOut, b=notZyOut, sel=ny, out=nyOut);
+
+    
+    //COMBINING X & Y
+    //combines X and Y
+    And16(a=nxOut, b=nyOut, out=xyAnd16Out);
+
+    //adds together X and Y
+    Add16(a=nxOut, b=nyOut, out=xyAdd16Out);
+
+    //whether we want to complement x and y, or and them
+    Mux16(a=xyAnd16Out, b=xyAdd16Out, sel=f, out=fOut);
+
+    //flips our fOut
+    Not16(in=fOut, out=notFOut);
+
+    //whether we want to negate the output
+    Mux16(a=fOut, b=notFOut, sel=no, out=noStatOut, out=out, out[15]=ng, out[0..7]=noStatOut1, out[8..15]=noStatOut2);
+
+
+    //ALU
+    //first 8 bits of our ALU nostat output combined
+    Or8Way(in=noStatOut1, out=splitOut1);
+
+    //last 8 bits of our ALU nostat output combined
+    Or8Way(in=noStatOut2, out=splitOut2);
+
+    //whether any of our outputs are = 1
+    Or(a=splitOut1, b=splitOut2, out=combinedOut);
+
+    //output to zr
+    Not(in=combinedOut, out=zr);
 }
 
