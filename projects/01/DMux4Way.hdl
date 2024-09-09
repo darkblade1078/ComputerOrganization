@@ -25,7 +25,10 @@ CHIP DMux4Way {
     //turn input into either {in, 0} or {0, in}
     DMux(in=in, sel=sel[1], a=dMuxOutputA, b=dMuxOutputB);
 
+    //turn input into either {in, 0, 0, 0} or {0, in, 0, 0}
     DMux(in=dMuxOutputA, sel=sel[0], a=a, b=b);
+
+    //turn input into either {0, 0, in, 0} or {0, 0, 0, in}
     DMux(in=dMuxOutputB, sel=sel[0], a=c, b=d);
 
 }
