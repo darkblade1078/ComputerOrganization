@@ -12,9 +12,19 @@
  */
 
 CHIP PC {
-    IN in[16],load,inc,reset;
+    IN in[16], load, inc, reset;
     OUT out[16];
 
     PARTS:
+
+    Inc16(in=out2, out=incriment); //create the incrimented version of our bits
+
+    Mux16(a=out2, b=incriment, sel=inc, out=incrimentOut); //use current bits or incrimented bits?
+
+    Mux16(a=incrimentOut, b=in, sel=load, out=loadOut); //load previous iteration?
+
+    Mux16(a=loadOut, b[0..15]=false, sel=reset, out=resetOut); //reset the PC?
+
+    Register(in=resetOut, load=true, out=out, out=out2); //load into register
 
 }

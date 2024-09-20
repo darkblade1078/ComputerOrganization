@@ -14,5 +14,13 @@ CHIP Bit {
     OUT out;
 
     PARTS:
+    //this mux handles our bit input and our bit looping
+    //the selector will decide if we keep looping our bit
+    //or add a new one
+    Mux(a=dffOut, b=in, sel=load, out=muxOut);
+
+    //flip flops our data
+    //it will switch the bit based on the clock cycle
+    DFF(in=muxOut, out=dffOut, out=out);
 
 }
