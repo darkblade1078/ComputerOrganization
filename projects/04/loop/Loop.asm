@@ -36,3 +36,18 @@
 // End END
 
 // Put your code here.
+@i
+M = 0
+
+//start
+@i
+D = M
+
+@0
+D = D - M
+
+@39
+D; JLE
+
+
+//end

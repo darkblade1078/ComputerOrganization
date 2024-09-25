@@ -7,3 +7,8 @@
 // (R0, R1 refer to RAM[0] and RAM[1] respectively.)
 
 // Put your code here.
+@i
+i = 0
+
+@0
+D = -M
