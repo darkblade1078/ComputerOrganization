@@ -10,3 +10,37 @@
 // R0 >= 0, R1 >= 0, and R0*R1 < 32768.
 
 // Put your code here.
+@0
+D=M //load R0 into our data register
+
+@i
+M=D //set i to R0
+
+@1
+D=M //load R1 into our data register
+
+@VALUE
+M=D //store R1 into our VALUE
+
+//start loop
+(LOOP)
+@0
+D=M //loads the value of R0 into our data register
+
+@VALUE
+M=D+M //loads the current value of our data register plus R0
+
+@i
+D=M //load i into our data register
+
+@END
+D; JEQ //jump to the end if i == 0
+
+@i
+M=M-1 //decriment i by 1
+
+@LOOP
+0; JMP //jumps back to LOOP until our condition is met
+
+//end loop
+(END)

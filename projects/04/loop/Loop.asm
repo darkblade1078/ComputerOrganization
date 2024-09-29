@@ -37,17 +37,29 @@
 
 // Put your code here.
 @i
-M = 0
+M=0 //set i to 0
 
-//start
-@i
-D = M
-
+//start loop
+(LOOP)
 @0
-D = D - M
+D=M //R0 is how many times we are going to loop
 
-@39
-D; JLE
+@i
+D=D-M //get the difference between R0 and i
 
+@END
+D; JEQ //jump to the end if R0 == 0
 
-//end
+@i
+M=M+1 //incriment i by 1
+
+@LOOP
+0; JMP //jumps back to LOOP until our condition is met
+
+//end loop
+(END)
+@i
+D=M //load i into our data register
+
+@1
+M=D //load i from our data register into R1

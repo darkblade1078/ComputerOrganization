@@ -7,8 +7,9 @@
 // (R0, R1 refer to RAM[0] and RAM[1] respectively.)
 
 // Put your code here.
-@i
-i = 0
-
 @0
-D = -M
+D=M //loads the value of R0 into our data register
+D=D+M //loads the current value of our data register plus R0
+
+@1
+M=D //loads our value into R1
