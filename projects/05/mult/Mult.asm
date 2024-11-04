@@ -9,38 +9,37 @@
 // This program only needs to handle arguments that satisfy
 // R0 >= 0, R1 >= 0, and R0*R1 < 32768.
 
-// Put your code here.
-@0
-D=M //load R0 into our data register
+@SUM //Initialize sum variable
+M = 0
 
-@i
-M=D //set i to R0
+@0 //Load value from R0
+D=M
 
-@1
-D=M //load R1 into our data register
+@END //End prorgam if R0 = 0
+D; JEQ
 
-@VALUE
-M=D //store R1 into our VALUE
+@1 //Load value from R1
+D=M
 
-//start loop
-(LOOP)
-@0
-D=M //loads the value of R0 into our data register
+@END //End prorgam if R1 = 0
+D; JEQ
 
-@VALUE
-M=D+M //loads the current value of our data register plus R0
+(LOOP) //LOOP
+@0 //Load value from R0
+D=M
 
-@i
-D=M //load i into our data register
+@SUM //Add R0 to our sum
+M=D+M
 
-@END
-D; JEQ //jump to the end if i == 0
+@1 //Load (R1 - 1) into our M and D register
+MD=M-1
 
-@i
-M=M-1 //decriment i by 1
+@LOOP //Jump back to LOOP if R1 != 0
+D; JNE
 
-@LOOP
-0; JMP //jumps back to LOOP until our condition is met
+(END) //END
+@SUM //Load sum into our D registers
+D=M
 
-//end loop
-(END)
+@2 //Load sum into R2
+M=D

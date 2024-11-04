@@ -39,6 +39,52 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
-    // Put your code here:
 
+    //check if we have a C or A instruction
+    Not(in=instruction[15], out=negativeInstruction);
+
+    //whether we take in the new instruction or whatever our ALU outputs
+    Mux16(a=outtM, b=instruction, sel=negativeInstruction, out=newInstruction);
+
+    Or(a=negativeInstruction, b=instruction[5], out=intoA); //whether we are loading data into our A register or not
+
+	ARegister(in=newInstruction, load=intoA, out=AData, out[0..14]=addressM); //put data into our A register
+
+    And(a=instruction[15], b=instruction[12], out=AorM); //whether our A register is being used for memory or for the data inside of the register
+
+	Mux16(a=AData, b=inM, sel=AorM, out=AM); //load in either our A register data or memory data
+
+    //what mathmatical function we're performing
+    //It's what the 6 c's are for on the CPU abstraction slides
+    ALU(x=DData, y=AM, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=outM, out=outtM, zr=outIsZero, ng=outNegative);
+
+    And(a=instruction[15],b=instruction[4],out=intoD); //whether or not we are loading data into our D register
+
+	DRegister(in=outtM, load=intoD, out=DData); //load data into our D register
+
+    And(a=instruction[15], b=instruction[3], out=writeM); //whether or not we are loading data into our current address in memory
+
+    Not(in=outNegative, out=outPositive); //flip our is negative bit from the ALU
+
+	Not(in=outIsZero, out=outNotZero); //flip our is zero bit from the ALU
+
+	And(a=instruction[15], b=instruction[0], out=jgt); //checks if our first j bit is one or not
+
+	And(a=outPositive, b=outNotZero, out=positiveNonZero); //whether the ALU outputted a zero or not
+
+	And(a=jgt, b=positiveNonZero, out=ld1); //checking both and gates above if they are true
+
+    And(a=instruction[15], b=instruction[1], out=jeq); //checks if our second j bit is one or not
+
+	And(a=jeq, b=outIsZero, out=ld2); //checks if we have a zero and the gate above is true
+
+    And(a=instruction[15], b=instruction[2], out=jlt); //checks if our third j bit is one or not
+
+	And(a=jlt, b=outNegative, out=ld3); //checks if we have a negative number and the gate above is true
+
+    Or(a=ld1, b=ld2, out=ldt); //if either j1 or j2 are one
+
+	Or(a=ld3, b=ldt, out=ld); //whether or not our instruction has a jump or not
+
+    PC(in=AData, load=ld, inc=true, reset=reset, out[0..14]=pc); //incriment our program counter
 }

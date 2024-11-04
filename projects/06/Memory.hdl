@@ -29,4 +29,16 @@ CHIP Memory {
     PARTS:
     // Put your code here:
 
+    DMux4Way(in=load, sel=address[13..14], a=load1, b=load2, c=scr, d=kbd); //whether we load data from either of our loads, our screen, or our keyboard
+
+    Or(a=load1, b=load2, out=ram); //whether we load 1 or 2 was picked in the DMux4Way
+
+    RAM16K(in=in, load=ram, address=address[0..13], out=ramout); //store data in memory
+
+    Screen(in=in, load=scr, address=address[0..12], out=scrout); //display data on screen if there is any
+
+    Keyboard(out=kbdout); //get input from the keyboard
+
+    Mux4Way16(a=ramout, b=ramout, c=scrout, d=kbdout, sel=address[13..14], out=out); //get data back once it passes thru ram
+
 }
