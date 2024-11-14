@@ -1,9 +1,0 @@
-$include Operators.h
-
-@14
-D=A
-$pushD
-@15
-D=A
-$pushD
-$add

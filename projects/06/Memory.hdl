@@ -27,8 +27,6 @@ CHIP Memory {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
-
     DMux4Way(in=load, sel=address[13..14], a=load1, b=load2, c=scr, d=kbd); //whether we load data from either of our loads, our screen, or our keyboard
 
     Or(a=load1, b=load2, out=ram); //whether we load 1 or 2 was picked in the DMux4Way

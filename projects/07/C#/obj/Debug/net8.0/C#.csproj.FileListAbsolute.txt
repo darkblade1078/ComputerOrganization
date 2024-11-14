@@ -1,0 +1,15 @@
+C:\Users\gamin\Documents\GitHub\ComputerOrg\projects\07\C#\bin\Debug\net8.0\C#.exe
+C:\Users\gamin\Documents\GitHub\ComputerOrg\projects\07\C#\bin\Debug\net8.0\C#.deps.json
+C:\Users\gamin\Documents\GitHub\ComputerOrg\projects\07\C#\bin\Debug\net8.0\C#.runtimeconfig.json
+C:\Users\gamin\Documents\GitHub\ComputerOrg\projects\07\C#\bin\Debug\net8.0\C#.dll
+C:\Users\gamin\Documents\GitHub\ComputerOrg\projects\07\C#\bin\Debug\net8.0\C#.pdb
+C:\Users\gamin\Documents\GitHub\ComputerOrg\projects\07\C#\obj\Debug\net8.0\C#.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gamin\Documents\GitHub\ComputerOrg\projects\07\C#\obj\Debug\net8.0\C#.AssemblyInfoInputs.cache
+C:\Users\gamin\Documents\GitHub\ComputerOrg\projects\07\C#\obj\Debug\net8.0\C#.AssemblyInfo.cs
+C:\Users\gamin\Documents\GitHub\ComputerOrg\projects\07\C#\obj\Debug\net8.0\C#.csproj.CoreCompileInputs.cache
+C:\Users\gamin\Documents\GitHub\ComputerOrg\projects\07\C#\obj\Debug\net8.0\C#.sourcelink.json
+C:\Users\gamin\Documents\GitHub\ComputerOrg\projects\07\C#\obj\Debug\net8.0\C#.dll
+C:\Users\gamin\Documents\GitHub\ComputerOrg\projects\07\C#\obj\Debug\net8.0\refint\C#.dll
+C:\Users\gamin\Documents\GitHub\ComputerOrg\projects\07\C#\obj\Debug\net8.0\C#.pdb
+C:\Users\gamin\Documents\GitHub\ComputerOrg\projects\07\C#\obj\Debug\net8.0\C#.genruntimeconfig.cache
+C:\Users\gamin\Documents\GitHub\ComputerOrg\projects\07\C#\obj\Debug\net8.0\ref\C#.dll
