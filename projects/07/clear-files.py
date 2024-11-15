@@ -29,6 +29,7 @@ if not os.name == 'nt':
 langList = os.listdir(cwd)
 langList.remove('clear-files.py')
 langList.remove('test-files.py')
+langList.remove('compile-files.py')
 langList.remove('nand2tetris')
 
 for lang in langList:

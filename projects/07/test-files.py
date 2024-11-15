@@ -58,8 +58,6 @@ def testScript(cwd, scriptExt, curLang):
         else:
             print(color.RED + curLang + ' - ' + name + color.RESET)
 
-    print('')
-
 # Set script extension type based on OS (Windows | Unix)
 scriptExt = {True: '.bat', False: '.sh'} [os.name == 'nt']
 
@@ -69,6 +67,7 @@ cwd = os.getcwd()
 langList = os.listdir(cwd)
 langList.remove('clear-files.py')
 langList.remove('test-files.py')
+langList.remove('compile-files.py')
 langList.remove('nand2tetris')
 
 for lang in langList:
