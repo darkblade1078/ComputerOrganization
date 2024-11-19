@@ -1,5 +1,6 @@
 import os
 import subprocess
+import stat
 
 class color:
     RESET    = '\033[0m'
@@ -31,7 +32,7 @@ languages = {
     },
     'Python': {
         "compile": [],
-        "run": ["py", "disassembler.py"]
+        "run": ["py" if os.name == 'nt' else "python3", "disassembler.py"]
     },
     'Rust': {
         "compile": ["rustc", "disassembler.rs", "-o", "disassembler.exe" if os.name == 'nt' else "disassembler.out"],
@@ -49,55 +50,63 @@ testNames = [
 def testScript(cwd, curLang):
 
     # Check if current language is in languages
-    if curLang in languages:
+    if curLang not in languages:
+        return
 
-        curLangDir = curLangDir = os.path.join(cwd, curLang)
+    curLangDir = curLangDir = os.path.join(cwd, curLang)
 
-        print(curLang) # Language that is being worked on
+    print(curLang) # Language that is being worked on
 
-        # Compile Raw Code if the language needs to compile it's code  
-        if len(languages[curLang]["compile"]) != 0:
+    # Compile Raw Code if the language needs to compile it's code  
+    if len(languages[curLang]["compile"]) != 0:
 
-            # Setup our compile command
-            compileCommand = languages[curLang]["compile"]
+        # Setup our compile command
+        compileCommand = languages[curLang]["compile"]
 
+        try:
             output = subprocess.run(compileCommand, cwd=curLangDir, capture_output=True).stdout.decode('utf-8')
 
-            # Print out if Compiler succeeded and if it didn't, return
-            if output == '':
-                print(color.GREEN + f"{curLang} - Compiled successfully" + color.RESET + "\n")
+            if(curLang in ['C++', 'Rust']):
+                os.chmod(f"{curLangDir}/{languages[curLang]["compile"][3]}", stat.S_IRWXU)
+        except FileNotFoundError:
+            print(color.RED + f"{curLang} - {languages[curLang]["compile"][0]} is not installed" + color.RESET + "\n")
+            return
+
+        # Print out if Compiler succeeded and if it didn't, return
+        if output == '':
+            print(color.GREEN + f"{curLang} - Compiled successfully" + color.RESET + "\n")
+        else:
+            if 'Determining projects to restore...' in output:
+                print(color.YELLOW + f"{curLang} - Skipped compiling" + color.RESET + "\n")
             else:
-                if 'Determining projects to restore...' in output:
-                    print(color.YELLOW + f"{curLang} - Skipped compiling" + color.RESET + "\n")
-                else:
-                    print(color.RED + f"{curLang} - Compilation failed" + color.RESET + "\n")
-                    return
-        
-        # Run our code for each hack file we have
-        for name in testNames:
-
-            # Attempt to decompile all 4 hack files in language folder
-            try:
-
-                # Setup our run command with the hack file we want to test
-                if(curLang in ['C++', 'Rust']):
-                    runCommand = [os.path.join(curLangDir, "disassembler.exe" if os.name == 'nt' else "disassembler")] + [name + '.hack']
-                else:
-                    runCommand = languages[curLang]["run"] + [name + '.hack']
-
-                output = subprocess.run(runCommand, cwd=curLangDir, capture_output=True).stdout.decode('utf-8')
-
-                # Print out if Hack files were decompiled and if they didn't, return
-                if output == '':
-                    print(color.GREEN + f"{curLang} - {name}.hack - Decompiled successfully" + color.RESET + "\n")
-                else:
-                    print(color.RED + f"{curLang} - {name}.hack - Failed to decompile" + color.RESET + "\n")
-                    return
-                
-            # Print if the hack file could not be found
-            except FileNotFoundError:
-                print(color.RED + f"{curLang} - Executable not found for {curLang}" + color.RESET + "\n")
+                print(color.RED + f"{curLang} - Compilation failed" + color.RESET + "\n")
                 return
+        
+    # Run our code for each hack file we have
+    for name in testNames:
+
+        # Attempt to decompile all 4 hack files in language folder
+        try:
+
+            # Setup our run command with the hack file we want to test
+            if(curLang in ['C++', 'Rust']):
+                runCommand = [os.path.join(curLangDir, languages[curLang]["compile"][3])] + [name + '.hack']
+            else:
+                runCommand = languages[curLang]["run"] + [name + '.hack']
+
+            output = subprocess.run(runCommand, cwd=curLangDir, capture_output=True).stdout.decode('utf-8')
+
+            # Print out if Hack files were decompiled and if they didn't, return
+            if output == '':
+                print(color.GREEN + f"{curLang} - {name}.hack - Decompiled successfully" + color.RESET + "\n")
+            else:
+                print(color.RED + f"{curLang} - {name}.hack - Failed to decompile" + color.RESET + "\n")
+                return
+                
+        # Print if the hack file could not be found
+        except FileNotFoundError:
+            print(color.RED + f"{curLang} - Executable not found for {curLang}" + color.RESET + "\n")
+            return
         
 
             
