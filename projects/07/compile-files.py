@@ -66,7 +66,7 @@ def testScript(cwd, curLang):
         try:
             output = subprocess.run(compileCommand, cwd=curLangDir, capture_output=True).stdout.decode('utf-8')
 
-            if(curLang in ['C++', 'Rust']):
+            if(curLang in ['C++', 'Rust'] and os.name != 'nt'):
                 os.chmod(f"{curLangDir}/{languages[curLang]["compile"][3]}", stat.S_IRWXU)
         except FileNotFoundError:
             print(color.RED + f"{curLang} - {languages[curLang]["compile"][0]} is not installed" + color.RESET + "\n")
